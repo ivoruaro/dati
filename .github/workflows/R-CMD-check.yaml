@@ -5,20 +5,15 @@ name: MyScript
 
 jobs:
   R-CMD-check:
-<<<<<<< HEAD
-  
+
     runs-on: macOS-latest
     
-=======
-    runs-on: windows-latest
->>>>>>> e5727ed623f5d226bbd25d8440ec9625dc6d7b9a
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       
     steps:
     
       - uses: actions/checkout@v2
-<<<<<<< HEAD
       
       - uses: r-lib/actions/setup-r@master
         with:
@@ -52,11 +47,6 @@ jobs:
       - name: Install package
         run: R CMD INSTALL .
       
-=======
-      - uses: r-lib/actions/setup-r@v1
-      - name: Install Libraries
-        run: Rscript -e 'install.packages("readr", "dplyr", "lubridate")'
->>>>>>> e5727ed623f5d226bbd25d8440ec9625dc6d7b9a
       - name: Run getdata.R
         run: Rscript "getdata.R"
 
