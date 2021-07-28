@@ -23,15 +23,10 @@ jobs:
     - name: Scrape
       run: Rscript getdata.R
 
-    # Commit files
-    - name: Commit files
-      run: |
-          git config --local user.email "test@github.com"
-          git config --local user.name "GitHub Action test"
-          git commit -m "Add changes"
-          
-    - name: Push changes # push the output folder to your repo
-      uses: ad-m/github-push-action@master
-      with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
+    - name: Commit results
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add csv/somministrazione_vaccini_90_giorni.csv
+          git commit -m 'Re-build package plot' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
