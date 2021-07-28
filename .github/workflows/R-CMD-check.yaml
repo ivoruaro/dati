@@ -14,6 +14,6 @@ jobs:
       - name: Install Libraries
         run: Rscript -e 'install.packages("readr", "dplyr", "lubridate")'
       - name: Run getdata.R
-        run: run: Rscript "getdata.R"
+        run: Rscript "getdata.R"
 
 
