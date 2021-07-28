@@ -1,53 +1,28 @@
+# Hourly scraping
+name: nifty50scrape
 
+# Controls when the action will run.
 on: workflow_dispatch
+  
 
-name: MyScript
+jobs: 
+  autoscrape:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
 
-jobs:
-  R-CMD-check:
-
-    runs-on: macOS-latest
-    
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      
+    # Load repo and install R
     steps:
-    
-      - uses: actions/checkout@v2
-      
-      - uses: r-lib/actions/setup-r@master
-        with:
-          r-version: 'release'
-          
-      - uses: r-lib/actions/setup-pandoc@master
-      
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        shell: Rscript {0}
+    - uses: actions/checkout@master
+    - uses: r-lib/actions/setup-r@master
+
+    # Set-up R
+    - name: Install packages
+      run: |
+        R -e 'install.packages("tidyverse")'
+        R -e 'install.packages("janitor")'
+        R -e 'install.packages("rvest")'
         
-      - name: Cache R packages
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: macOS-r-4.0-2-
-            
-      - name: Install dependencies
-        run: |
-          remotes::install_cran("tidyverse")
-          remotes::install_cran("shiny")
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_dev("pkgdown")
-          remotes::install_github("tidyverse/tidytemplate")
-        shell: Rscript {0}
-
-      - name: Install package
-        run: R CMD INSTALL .
-      
-      - name: Run getdata.R
-        run: Rscript "getdata.R"
-
-
+    # Set-up R
+    
+    - name: Scrape
+      run: Rscript getdata.R
