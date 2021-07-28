@@ -5,7 +5,7 @@ name: Vaccinati Negli ultimi 90 giorni
 # on: workflow_dispatch -
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "10 19,20 * * *"
   
 jobs: 
   getdata:
