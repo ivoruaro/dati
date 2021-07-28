@@ -1,12 +1,11 @@
 # Hourly scraping
-name: nifty50scrape
+name: MyWorkflow
 
 # Controls when the action will run.
 on: workflow_dispatch
   
-
 jobs: 
-  autoscrape:
+  myworkflow:
     # The type of runner that the job will run on
     runs-on: macos-latest
 
@@ -17,12 +16,21 @@ jobs:
 
     # Set-up R
     - name: Install packages
-      run: |
-        R -e 'install.packages("tidyverse")'
-        R -e 'install.packages("janitor")'
-        R -e 'install.packages("rvest")'
+      run: R -e 'install.packages("tidyverse")'
         
-    # Set-up R
-    
+    # Run R Script
     - name: Scrape
       run: Rscript getdata.R
+      
+    - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "update data" -a
+          
+      - name: push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main  
