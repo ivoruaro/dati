@@ -1,12 +1,12 @@
 # Hourly scraping
-name: nifty50scrape
+name: Vaccinati Negli ultimi 90 giorni
 
 # Controls when the action will run.
 on: workflow_dispatch
   
 
 jobs: 
-  autoscrape:
+  getdata:
     # The type of runner that the job will run on
     runs-on: macos-latest
 
@@ -23,13 +23,13 @@ jobs:
     - name: Scrape
       run: Rscript getdata.R
 
-    - name: Commit files # commit the output folder
+    # Commit files
+    - name: Commit files
       run: |
           git config --local user.email "test@github.com"
           git config --local user.name "GitHub Action test"
           git commit -m "Add changes"
           
-                
     - name: Push changes # push the output folder to your repo
       uses: ad-m/github-push-action@master
       with:
