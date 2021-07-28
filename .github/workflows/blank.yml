@@ -5,10 +5,12 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     strategy:
       matrix:
         R: [ '4.0.5' ]
-    name: R ${{ matrix.R }} sample
+        
+    name: R ${{ matrix.R }} setup
     steps:
       - uses: actions/checkout@master
       - name: Setup R
@@ -17,3 +19,17 @@ jobs:
           r-version: ${{ matrix.R }}
       - run: Rscript "getdata.R"
 
+
+    name: commit files
+        - run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add -A
+            git commit -m "update data" -a
+          
+      name: push changes
+        - uses: ad-m/github-push-action@v0.6.0
+        - with:
+          - github_token: ${{ secrets.GITHUB_TOKEN }}
+          - branch: main  
+          
