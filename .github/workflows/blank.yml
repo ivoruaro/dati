@@ -15,5 +15,5 @@ jobs:
         uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.R }}
-      - run: Rscript -e 'somministrazione-vaccini.R'
+      - run: Rscript -e 'getdata.R'
 
