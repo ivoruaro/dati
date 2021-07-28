@@ -1,8 +1,7 @@
 name: ScaricaUltimi90Giorni
 
-on:
-  schedule:
-    - cron: "0 * * * *"
+on: workflow_dispatch
+  
     
 jobs:
   build:
